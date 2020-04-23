@@ -1,0 +1,15 @@
+select *
+  from cos_login
+where empno in ('214210','191108');
+
+
+
+update cos_login
+  set empl_pwd = '50911b3ced31e02f8ba04ee3d80ad7924208e467526a295c2b18d5fa3deecc85' --원본
+--    set empl_pwd = 'bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a' --변경 214210
+ where empno in ('196101');
+
+02 - 368 - 3100
+02 - 368 - 3001
+
+02 - 368 - 0774

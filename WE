@@ -1,0 +1,39 @@
+
+// 결제 진행. pay_prss(0010:신규신청, 0020:기존건 결제진행)
+this.fnPay = function (pay_prss)
+{
+	var gubun = this.rdoGubun.value;
+    if(gubun == "0030"){	// 카드 결제
+		if (pay_prss == "0020")
+		{
+			var oArg = {
+				 PAY_TITLE : "휴양신청결제 - " + this.dsNewReqst.getColumn(0, 'CDMU_ROOM_NM')
+				,PAY_AMT : this.dsNewReqst.getColumn(0, 'RCPMNY_AMT')
+				,PAY_CPUT_CN : this.pRcpmnyDetail
+				,MMBS_NO : this.dsNewReqst.getColumn(0, 'BCNC_CD')
+				,JOB_MGRT_NO : this.dsNewReqst.getColumn(0, 'JOB_MGRT_NO')
+				,PROD_CD : JSON.stringify(this.gfnConvertJSON(this.dsNewReqst, 0))
+				,BCNC_EMAIL_ADRES : this.dsNewReqst.getColumn( 0 , "BCNC_EMAIL_ADRES")
+				,JOB_TY_CD : "0040"
+			};
+			this.div00.form.fnSetPgInfo(oArg);
+		}
+		else this.fnInsertTemp();
+    }
+    else if(gubun == "0040"){ // 계좌 이체
+		var jobMgrtNo = this.dsNewReqst.getColumn(0, 'JOB_MGRT_NO');
+		if(this.gfnIsNull(jobMgrtNo))
+			jobMgrtNo = "9999999";
+		var oArg = {
+			 PAY_TITLE : "휴양신청결제 - " + this.dsNewReqst.getColumn(0, 'CDMU_ROOM_NM')
+			,PAY_AMT : this.dsNewReqst.getColumn(0, 'RCPMNY_AMT')
+			,PAY_CPUT_CN : this.pRcpmnyDetail
+			,MMBS_NO : this.dsNewReqst.getColumn(0, 'BCNC_CD')
+			,JOB_MGRT_NO : jobMgrtNo
+			,BCNC_EMAIL_ADRES : this.dsNewReqst.getColumn( 0 , "BCNC_EMAIL_ADRES")
+			,PROD_CD : JSON.stringify(this.gfnConvertJSON(this.dsNewReqst, 0))
+			,JOB_TY_CD : "0040"
+		};
+		this.div00.form.fnSetBankInfo(oArg);
+    }
+};
